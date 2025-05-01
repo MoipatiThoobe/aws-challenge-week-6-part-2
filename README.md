@@ -117,4 +117,63 @@ In the hands on lab, I will be doing the following:
 ## Dyanamic References
 Dynamic references are used in the CloudFormation template to reference external values stored in AWS services. When you use a dynamic reference, CloudFormation retrives the value of the specified reference when necessary during a stack and change set operations. However, CloudFormation never stores the actual reference value. 
 
+In the hands on lab, I will be doing the following: 
+* Compose a dynamic reference string to access an external value in the CloudFormation template
+* Retrieve the latest version of a Parameter store parameter
+* Retrieve a specific version of a secrets manager secret
+* Extract a value for a specific key, from a secret that uses a JSON format
+
+1. Create a parameter using the AWS Command Line Interface (CLI)
+
+<img width="227" alt="22" src="https://github.com/user-attachments/assets/a8061a11-aaa8-4867-98b3-c263edd3c608" />
+
+2. Open ec2-instance.yaml and add the following code in the Properties section, the ImageId property and a dynamic reference to the parameter
+
+<img width="349" alt="23" src="https://github.com/user-attachments/assets/b9fd32c6-1dd8-45c0-9610-320e74d5bc7f" />
+
+3. Create a stack on CloudFormation using the ec2-instance.yaml template
+
+<img width="947" alt="24" src="https://github.com/user-attachments/assets/78440922-eb61-4a4c-baff-dae8cfd87fc1" />
+
+4. In the CLI verify that the ID of the image used for the EC2 instance matches the image ID stored in the Parameter store paramter
+
+<img width="244" alt="25" src="https://github.com/user-attachments/assets/cdd3a978-6905-4bee-9c09-cbd6dd46bf58" />
+
+5. Create a stack on CloudFormation using database.yaml template. This stack will create an Amazon RDS database.
+
+<img width="941" alt="27" src="https://github.com/user-attachments/assets/6c1a86ea-f4b0-4ab4-bb7d-c9de7088e1ec" />
+
+6. Open lambda-function.yaml and update the template by appending the *Properties* section with the *Environment* property, with variables using dynamic references to the AWS Secrets manager
+
+<img width="511" alt="28" src="https://github.com/user-attachments/assets/efe9f6fd-3962-48bc-bc76-52acf1c2b13c" />
+
+7. Create a stack on CloudFormation using the lambda-function.yaml template. In the template that was just deployed, database connection parameters are retrieved during stack runtime using a dynamic string.
+
+<img width="956" alt="29" src="https://github.com/user-attachments/assets/bd4ce95e-9ed7-4ebf-a59f-c6d0722e42ea" />
+
+8. In the CLI invoke the example Lambda function that was created and save the output inside of a JSOn file
+
+<img width="422" alt="30" src="https://github.com/user-attachments/assets/aaefae8d-c205-4cf7-b9eb-099a9f34b6e3" />
+
+9. Print the content of the JSON file
+
+<img width="617" alt="31" src="https://github.com/user-attachments/assets/6246225e-e7a4-4cd5-b66a-04df8e1ea80a" />
+
+10. Create a Parameter store parameter specifying the required memory configuration
+
+<img width="734" alt="32" src="https://github.com/user-attachments/assets/deae0dd9-41a1-4e54-a325-43d206368b09" />
+
+11. Open lambda-memory-size.yaml template and add the following code which includes the *MemorySize* property using a dynamic reference to the parameter
+
+<img width="322" alt="33" src="https://github.com/user-attachments/assets/e86f7012-2f5d-4d23-bf44-273a402ee818" />
+
+12. Create a stack on CloudFormation using the lambda-memory-size.yaml template
+
+<img width="948" alt="34" src="https://github.com/user-attachments/assets/ad4315c6-8c34-4c98-8ef5-fd8ee7aab74d" />
+
+13. In the CLI, verify that the Lambda function was created using the SSM Parameter value for MemorySize
+
+<img width="695" alt="35" src="https://github.com/user-attachments/assets/e24a4a1f-609a-4693-a048-eab82b6a8c56" />
+
+14. Clean up recources by deleting the Lambda functions, Parameter store parameters and the CloudFormation stacks
 
