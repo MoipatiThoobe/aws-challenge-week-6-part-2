@@ -1,4 +1,4 @@
-# aws-challenge-week-6-part-2
+<img width="949" alt="1" src="https://github.com/user-attachments/assets/622cb65b-d6f2-40d1-95a8-79794309c664" /># aws-challenge-week-6-part-2
 
 ## Conditions
 To conditionally create resources, you add the optional **Conditions** section to your template. Once you define conditions and relevant criteria, you use your conditions in the **Resources** and **Outputs** template sections. CloudFormation evaluates all conditions in your template before creating any resources at stack creation or stack update. Resources that are associated with a true condition are only created during stack creation or stack update. 
@@ -493,4 +493,38 @@ CloudFormation updates resources by comparing changes between the updated templa
 12. Clean up resources by delating the stack
 
 
+## Understanding change sets
+Change sets give you a preview of proposed changes before you apply them, and helps prevent unexpected resource configurations or replacements. You can create change sets by either modifying template parameter values or by providing an updated template where you described your changes. You can also choose to create multiple change sets for the same stack, before executing the change set that best suits your requirements.
+
+In the hands on lab, I will be doing the following:
+* Create change sets
+* Read change sets to understand what the stack will look like after the update
+
+1. Create a stack on CloudFormation using bucket.yaml template
+
+<img width="949" alt="1" src="https://github.com/user-attachments/assets/aa45becd-0042-453d-839b-b00acfb71e5b" />
+
+2. Open bucket.yaml and add the following code to enable versioning on the S3 bucket
+
+<img width="206" alt="2" src="https://github.com/user-attachments/assets/0bf9224e-d684-417e-b7fd-b2fac9259657" />
+
+3. Create a change set for the stack on CloudFormation by replacing the current template with the updated template
+
+<img width="956" alt="3" src="https://github.com/user-attachments/assets/d5801023-14ba-4936-bdff-cb7ea2f075a1" />
+
+4. JSON changes for the change set
+
+<img width="574" alt="4" src="https://github.com/user-attachments/assets/1f50e460-d7bf-4a4d-b897-55532f4319dc" />
+
+5. Create a change set for the stack on CloudFormation and modify the bucket name property
+
+<img width="959" alt="5" src="https://github.com/user-attachments/assets/55b59cf5-e225-463f-81f2-13ec5fe207e2" />
+
+6. JSON changes for the change set
+
+<img width="399" alt="6" src="https://github.com/user-attachments/assets/8b49aef0-5030-4eb6-b101-e954b11211a3" />
+
+<img width="361" alt="7" src="https://github.com/user-attachments/assets/58727fb5-9990-496e-a75b-1ea42ce0c2ab" />
+
+7. Clean up resources by deleting the stack
 
