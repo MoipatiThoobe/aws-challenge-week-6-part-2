@@ -1,4 +1,4 @@
-<img width="873" alt="8" src="https://github.com/user-attachments/assets/cbbb0eb3-ff3d-4622-a75e-b403f7b4adee" /><img width="578" alt="1" src="https://github.com/user-attachments/assets/cde74145-7841-4d05-b18b-46be55351c08" /><img width="370" alt="1" src="https://github.com/user-attachments/assets/d15630cb-b16b-466c-b091-5da59d2d4b4d" /># aws-challenge-week-6-part-2
+# aws-challenge-week-6-part-2
 
 ## Conditions
 To conditionally create resources, you add the optional **Conditions** section to your template. Once you define conditions and relevant criteria, you use your conditions in the **Resources** and **Outputs** template sections. CloudFormation evaluates all conditions in your template before creating any resources at stack creation or stack update. Resources that are associated with a true condition are only created during stack creation or stack update. 
@@ -398,5 +398,99 @@ In the hands on lab, I will be doing the following:
 <img width="950" alt="15" src="https://github.com/user-attachments/assets/4dc34a31-f409-48b0-9263-f04089ee7c38" />
 
 15. Clean up resources by deleting both of the stacks
+
+
+## Looping over collections with Fn::ForEach
+The Fn::ForEach intrinsic function allows you to describe resources that share the same/similar configuration, with dynamic iterations that you use to map resource configurations to loop-like structures
+
+1.Open s3-buckets.yaml and add the following code to **Resources** section
+
+<img width="310" alt="1" src="https://github.com/user-attachments/assets/69084f48-fdbb-4760-af95-8e53df19aea9" />
+
+2. Create a stack on CloudFormation using the s3-buckets.yaml template
+
+<img width="959" alt="2" src="https://github.com/user-attachments/assets/09d9a00d-4fcc-406d-8d39-a7e4cd74cda7" />
+
+3. Open vpc.yaml and add the following code to create two public subnets and two private subnets
+
+<img width="310" alt="3" src="https://github.com/user-attachments/assets/5212d556-8348-42c4-8b1d-14520f54829b" />
+
+4. Add the following code to the existing inner loop to create four route tables and associate them to the relevant subnets
+
+<img width="341" alt="4" src="https://github.com/user-attachments/assets/8d627004-573f-4c29-98d5-7f1ee9a458c4" />
+
+5. Add the following code to create 2 AWS::EC2::Route resources for public subnets
+
+<img width="308" alt="5" src="https://github.com/user-attachments/assets/a77a041c-25b4-4d5b-9f22-3e7273da7b65" />
+
+6. Add the following code to create 2 Nat gateways and 2 routes that each Nat gateway will use as a target
+
+<img width="305" alt="6" src="https://github.com/user-attachments/assets/e5081ada-f05b-4e45-aba8-15be1b1f756b" />
+
+7. Create a stack on CloudFormation using the vpc.yaml template
+
+<img width="956" alt="7" src="https://github.com/user-attachments/assets/e3f53078-a3f9-4f7b-b6d1-b5b858893490" />
+
+8. Add the following code to the **Output** section of vpc.yaml
+
+<img width="466" alt="8" src="https://github.com/user-attachments/assets/ad1a949e-5072-4410-bfc8-aa573099c4cd" />
+
+9. Update the stack on CloudFormation using the updated vpc.yaml template
+
+<img width="957" alt="9" src="https://github.com/user-attachments/assets/84c89933-26d8-4929-8208-b055d6ed5ec1" />
+
+10. Clean up resources by deleting the CloudFormation stacks
+
+## Update behaviours of stack resources
+CloudFormation updates resources by comparing changes between the updated template you provide, and resource configurations you describedin the previous version of your template. Resource configurations that haven't changed remain unaffected during the update process; otherwise CloudFormation uses one of the following *update behaviours*: **Update with No Interruption, Updates with Some Interruption, and Replacement**, depending on which new property you add, or on which property value you modify, for a given resource type  you describe in your template.
+
+1. Open update-behaviors-of-stack-resources.yaml and add the following code to the *Parameters* section
+
+<img width="449" alt="1" src="https://github.com/user-attachments/assets/50d3e1a6-8e26-4b8a-b6c0-dd998998a795" />
+
+2. Add the following code to create an EC2 instance resource
+
+<img width="230" alt="2" src="https://github.com/user-attachments/assets/38cd9d0a-0a00-4898-9f68-5c0897adb8f2" />
+
+3. Create a stack on CloudFormation using the update-behaviors-of-stack-resources.yaml template
+
+<img width="953" alt="3" src="https://github.com/user-attachments/assets/0b47f21c-08ee-4dc2-8844-1fc26b8b7413" />
+
+4. Update the stack, on the **Parameters** page change the value of the LatestAmiId parameter
+
+<img width="947" alt="5" src="https://github.com/user-attachments/assets/b508b777-f1c4-4ada-8d1d-396506c4da1b" />
+
+5. Navigate to the Amazon EC2 console, on the Instances page a new instance has been launched and the instance created earlier was terminated. This ia happening because when the stack was updated, CloudFormation created a new instance first and deleted the previous one. This is an example of replacement behaviour.
+
+<img width="766" alt="7" src="https://github.com/user-attachments/assets/d4d24f67-a14f-4d33-8eaa-2091fe1f4151" />
+
+6. Update the stack, on the **Parameters** page change the value of the instance size parameter. Navigate to the EC2 console while the stack is updating, the instance will be stopped and once the instance type has been updated it will run again
+
+<img width="760" alt="8" src="https://github.com/user-attachments/assets/ad5d861a-5868-4888-8201-79ebda51d2b8" />
+
+<img width="741" alt="10" src="https://github.com/user-attachments/assets/35261f6b-e16f-4662-bf9d-4a6fa54a70ea" />
+
+7. Add the following code to update-behaviors-of-stack-resources.yaml to specify the Monitoring property definition for the EC2 Instance
+
+<img width="229" alt="9" src="https://github.com/user-attachments/assets/72992ba7-d9d5-4b3f-8ac9-31d8fc8a1e2b" />
+
+8. Update the stack on CloudFormation using the updated template
+
+<img width="950" alt="11" src="https://github.com/user-attachments/assets/8deac807-4d8c-47a8-bd38-830bf369da78" />
+
+9. Update the Value of the Name tag key in update-behaviors-of-stack-resources.yaml
+
+<img width="260" alt="12" src="https://github.com/user-attachments/assets/553a377c-84eb-4575-bf82-13cf717a68f4" />
+
+10. Update the stack on CloudFormation with the updated template
+
+<img width="944" alt="13" src="https://github.com/user-attachments/assets/5c29a8cf-8670-4b70-9b77-f2a88fcff1ab" />
+
+11. The updated Value of the Name Tag
+
+<img width="824" alt="14" src="https://github.com/user-attachments/assets/92c3cbe1-fb5f-4855-8c50-e9e936305531" />
+
+12. Clean up resources by delating the stack
+
 
 
