@@ -1,4 +1,4 @@
-<img width="949" alt="1" src="https://github.com/user-attachments/assets/622cb65b-d6f2-40d1-95a8-79794309c664" /># aws-challenge-week-6-part-2
+# aws-challenge-week-6-part-2
 
 ## Conditions
 To conditionally create resources, you add the optional **Conditions** section to your template. Once you define conditions and relevant criteria, you use your conditions in the **Resources** and **Outputs** template sections. CloudFormation evaluates all conditions in your template before creating any resources at stack creation or stack update. Resources that are associated with a true condition are only created during stack creation or stack update. 
@@ -528,3 +528,266 @@ In the hands on lab, I will be doing the following:
 
 7. Clean up resources by deleting the stack
 
+
+## Stack policy and prevention controls
+When you describe your infrastructure with code using CloudFormation, you have the choice of implementing policies to prevent unintentional operations.
+
+In The hands on lab, I will be doing the following:
+* Set up a stack policy on a CloudFormation stack
+* Prevent stack deletion by enabling Termination Protection
+* Use a DeletionPolicy attribute to retain or backup resources when a stack is deleted
+
+1. Open stack-policy.yaml template and add the following code
+
+<img width="311" alt="1" src="https://github.com/user-attachments/assets/b316997e-df3c-41c1-b4b5-ed8c4c78c68b" />
+
+2. Create a stack on CloudFormation using the stack-policy.yaml template. In the **Configure Stack Options** page, add the following stack policy. The stack policy denies updates to the resource whose Logical ID is SNSTopic. Activate the Termination protection feature. 
+
+<img width="305" alt="2" src="https://github.com/user-attachments/assets/1380a4ab-5312-4920-8925-00deb87fb028" />
+
+<img width="949" alt="3" src="https://github.com/user-attachments/assets/32bc4fb3-620c-4c3b-aa65-648172721b31" />
+
+3. Test the stack policy by trying to update a parameter of the stack. The stack update will fail because of the stack policy that we applied to the stack.
+
+<img width="958" alt="4" src="https://github.com/user-attachments/assets/b5c41585-b209-4768-94db-5742c5962724" />
+
+4. Test the termination protection by trying to delete the stack. A message window appears informing us that Termination protection is enabled on the stack and it needs to be disabled before the stack can be deleted.
+
+<img width="475" alt="5" src="https://github.com/user-attachments/assets/88739994-489b-4220-ba80-946705c2497e" />
+
+5. Open deletion-policy-lab.yaml template and add the following code
+
+<img width="160" alt="6" src="https://github.com/user-attachments/assets/b57f740c-f50a-4365-a907-fa14a3d148f1" />
+
+6. Create a stack on CloudFormation using the deletion-policy-lab.yaml template
+
+<img width="949" alt="7" src="https://github.com/user-attachments/assets/34acbad1-165e-44df-989a-205727782cfd" />
+
+7. Select the stack that was just created and delete it
+
+<img width="950" alt="8" src="https://github.com/user-attachments/assets/f7b9ffff-d3b9-408a-9184-2b70ce4803ae" />
+
+8. Because of the Retain value for the DeletionPolicy, the SNSTopic was retained even though the stack was deleted
+
+<img width="733" alt="9" src="https://github.com/user-attachments/assets/d6a012a9-ad7d-4fdf-9fe0-974f23ccada0" />
+
+9. Clean up resources by deleting the stacks
+
+
+## Resource Importing
+If you have created a resource in your AWS account, you can choose to import your resource into a CloudFormation stack, so you can manage the resource's lifecycle with CloudFormation. You can also use the import functionality if you want to move your resources between stacks, so you can organize your stacks and resources by lifecycle and ownership.
+
+In the hands on lab, I will be doing the following:
+* Import a resource to my stack
+* practice important considerations for a number of resource import use cases
+
+1. Navigate to the SNS console and create a SNS topic called Topic1
+
+<img width="946" alt="1" src="https://github.com/user-attachments/assets/d2cf2a99-48e1-4d6c-9dbf-639ad6280f79" />
+
+2. Open resource-importing.yaml and add the following code, the SNS topic that was previously will be passed as a parameter. A DeletionPolicy attribute to retain resources will be added to the SNS topic.
+
+<img width="518" alt="2" src="https://github.com/user-attachments/assets/cf2af98f-853d-412d-90ac-187b766a7fdd" />
+
+3. Create a stack on CloudFormation using the resource-importing.yaml template. Import the SNS topic that was previously by using the ARN value.
+
+<img width="946" alt="3" src="https://github.com/user-attachments/assets/674b47e7-1d9b-4265-850b-9be9d9940d1c" />
+
+4. Create another SNS topic called Topic2
+
+<img width="950" alt="4" src="https://github.com/user-attachments/assets/d92a2536-a3d6-4ff7-aa59-b440cb9ebd30" />
+
+5. Add the following code to resource-importing.yaml
+
+<img width="548" alt="5" src="https://github.com/user-attachments/assets/a226d6f9-29d8-43ab-a283-8ac80fdfbeb4" />
+
+<img width="231" alt="6" src="https://github.com/user-attachments/assets/1d944154-8190-4dca-b6e0-d60c18bacf18" />
+
+6. Select the stack that was previously created, update it and import the new SNS topic (Topic2) that was previously created
+
+<img width="955" alt="7" src="https://github.com/user-attachments/assets/59f1ad2b-12e8-4452-870a-5442f5bafefe" />
+
+7. Open resource-importing.yaml, remove code from the **Parameters** section and the **Resources** section
+
+<img width="557" alt="8" src="https://github.com/user-attachments/assets/1847ce29-7a10-4652-a652-b90006c78969" />
+
+8. Select the stack and update it with the updated resource-importing.yaml template
+
+<img width="952" alt="9" src="https://github.com/user-attachments/assets/43e9476c-4aa0-40e9-8746-e41464e6c8de" />
+
+9. Open moving-resources.yaml and add the following code
+
+<img width="539" alt="10" src="https://github.com/user-attachments/assets/0c0b1537-0920-4b50-acfb-44f966b24eb7" />
+
+10. Create a stack on Cloudformation using the moving-resources.yaml template and choose to import resources. Import the SNS topic (Topic1) using its ARN.
+
+<img width="944" alt="11" src="https://github.com/user-attachments/assets/d36f5699-936a-4081-ad72-31b8f10e81a9" />
+
+11. Clean up resources by deleting the stacks
+
+## Drift detection
+
+Drift detection gives you information on the difference between the current configuration of a resource and the configuration you declared in the template you used to create or update the resource. The results of the drift detection show you the affected resources and the differences between the current state and the template.
+
+In the hands on lab, I will be doing the following:
+* Use drift detection to detect drift on stack resources
+* Understand how to intepret the Drift Detection results to identify which resource properties have changed
+* Modify a resource to return it to its original configuration
+* Update a template to match the new configuration of a resource
+
+1. Open drift-detection-workshop.yaml template and add the following code
+
+<img width="260" alt="1" src="https://github.com/user-attachments/assets/bd3f5135-97f8-41f8-9f01-c53464d1fb25" />
+
+2. Create a stack on CloudFormation using the drift-detection-workshop.yaml template
+
+<img width="955" alt="2" src="https://github.com/user-attachments/assets/01cf74a4-60da-46a1-956d-a023fbebaa81" />
+
+3. Navigate to the DynamoDB console and update the Read/Write capacity settings to use On-demand capacity mode
+
+<img width="953" alt="3" src="https://github.com/user-attachments/assets/80917e06-2fb7-4edc-9e21-da293dedb980" />
+
+4. Use drift detection to identify the changes to the DynamoDB table resource compared to the original template. 
+
+<img width="958" alt="4" src="https://github.com/user-attachments/assets/9d5f1c3a-f94e-438a-a0da-a69791c58f5c" />
+
+5. The drift status page shows that Table1 has been modified and Queue1 is still in sync with the template
+
+<img width="955" alt="5" src="https://github.com/user-attachments/assets/345fb81f-ee87-4d7b-a3cb-b62e716910e9" />
+
+6. The drift details page shows two differences from the original template
+
+<img width="956" alt="6" src="https://github.com/user-attachments/assets/6b38bd23-3a89-4218-93a0-37625a4532a4" />
+
+7. Return to the DynamoDB console and update the Read/Write capacity settings to use Provisioned capacity
+
+<img width="490" alt="7" src="https://github.com/user-attachments/assets/4e0018c2-5875-47dd-bd1b-49c1b455c78b" />
+
+8. Perform a drift detection on the stack, the drift status is now IN_SYNC
+
+<img width="939" alt="8" src="https://github.com/user-attachments/assets/8c00be41-84be-4917-b959-a98da8436b1e" />
+
+9. Navigate to SQS Console, locate the queue created by the stack and edit the message retention period
+
+<img width="952" alt="9" src="https://github.com/user-attachments/assets/c571f3ea-ece0-4116-ab1f-ab1baf5c247b" />
+
+10. Use drift detection to identify the changes to the SQS queue resource compared to the original template. The drift status page shows that Queue1 has been modified.
+
+<img width="953" alt="10" src="https://github.com/user-attachments/assets/55aa822b-aa7b-4227-a0bd-39e39249e06d" />
+
+11. The drift details show one difference, the MessageRetentionPeriod property has been changed. 
+
+<img width="955" alt="11" src="https://github.com/user-attachments/assets/284cdff2-64d2-489a-a540-dc859c23e89d" />
+
+12. Open drift-detection-workshop.yaml and update the MessageRetentionPeriod to match the value that is has been updated to
+
+<img width="229" alt="12" src="https://github.com/user-attachments/assets/6bdd5451-1b08-4132-be08-426d2efd9b3c" />
+
+13. Update the stack on CloudFormation using the updated drift-detection-workshop.yaml template
+
+<img width="949" alt="13" src="https://github.com/user-attachments/assets/4cc773cf-b8ec-4402-8594-a5a71430db2f" />
+
+14. Perform a drift detection on the stack, the drift status is now IN_SYNC
+
+<img width="948" alt="14" src="https://github.com/user-attachments/assets/2de3e10d-6719-4068-8d7f-9b82248892e4" />
+
+15. Open the drift-detection-challenge.yaml template and add the following code
+
+<img width="419" alt="15" src="https://github.com/user-attachments/assets/8a92b168-344e-4ed7-b5b5-271884e8e662" />
+
+16. Create a stack on CloudFormation using the drift-detection-challenge.yaml template
+
+<img width="944" alt="16" src="https://github.com/user-attachments/assets/2cd96c33-845e-49a3-8bfd-20c1cb72e52e" />
+
+17. Navigate to the EC2 console, stop the EC2 instance and modify the user data. Start the instance when finished.
+
+<img width="952" alt="17" src="https://github.com/user-attachments/assets/2c5f3bd6-27d4-4937-bb65-73aafc27a3c9" />
+
+18. Start a drift detection on the stack, the drift status is DRIFTed and the drift status page shows that Instance1 has been modified
+
+<img width="952" alt="18" src="https://github.com/user-attachments/assets/972796b8-747f-4b16-8340-7d1ae8c978c1" />
+
+19. The drift details page show that the UserData property has been modified
+
+<img width="952" alt="19" src="https://github.com/user-attachments/assets/a62f3498-5dbe-4932-b97d-9a36995225ce" />
+
+20. Update drift-detection-challenge.yaml to add a DeletionPolicy attribute with a value of Retain to the Instance1 resource
+
+<img width="224" alt="20" src="https://github.com/user-attachments/assets/b4cd0565-87f3-42a8-bd8c-86fd30e5b5ae" />
+
+21. Update the stack on CloudFormation with the updated drift-detection-challenge.yaml template
+
+<img width="948" alt="21" src="https://github.com/user-attachments/assets/ff2f7fe2-7ca5-4743-8671-a13631223696" />
+
+22. Update drift-detection-challenge.yaml by commenting out the whole resource declaration
+
+<img width="211" alt="22" src="https://github.com/user-attachments/assets/36db97d6-97dc-498a-aa96-fcc65e037b58" />
+
+23. Update the stack on CloudFormation using the updated drift-detection-challenge.yaml template
+
+<img width="946" alt="23" src="https://github.com/user-attachments/assets/c6165bf5-b80c-457d-9edd-6070a2f2fde4" />
+
+24. Update the drift-detection-challenge.yaml template to restore the resource and update the UserData to match the change made previously
+
+<img width="192" alt="24" src="https://github.com/user-attachments/assets/1647ba05-ca9d-4ae0-ae67-5d2e7895bfaf" />
+
+25. Import the EC2 instance into the stack using its physical ID
+
+<img width="949" alt="25" src="https://github.com/user-attachments/assets/b4de5d71-1f21-449d-ac74-b63d3bd9f916" />
+
+26. Perform a drift detection on the stack, the drift status is now IN_SYNC
+
+<img width="953" alt="26" src="https://github.com/user-attachments/assets/6b7caaa1-0c2c-4877-9306-a3bafbc8b4de" />
+
+27. Clean up resources by deleting the stacks
+
+## Orchestration with StackSets
+With CloudFormation StackSets, you can create, update or delete stacks across multiple accounts and AWS regions with a single operation
+
+In the hands on lab, I will be doing the following:
+* Leverage StackSets to provision resources in one account and across multiple regions using a single operation
+* Understand how you can export output parameters from a stack set instance, and import them into another stack set instance
+
+### Prerequistes
+
+1. Create a stack on CloudFormation using the AWSCloudFormationStackSetAdministrationRole.yaml template. This will create the administrator role needed for the hands on lab.
+
+<img width="959" alt="1" src="https://github.com/user-attachments/assets/a75dcf37-8137-46d5-9317-4bf905d9d130" />
+
+2. Create another stack on CloudFormation using the AWSCloudFormationStackSetExecutionRole.yaml template. This will create the execution role needed for the hands on lab.
+
+<img width="947" alt="2" src="https://github.com/user-attachments/assets/f79ac3ff-531a-4c17-8d8b-9e2ec2f8ce5f" />
+
+3. Create a StackSet on CloudFormation using the example_network.yaml template. In the Account number text box, enter the 12 digit AWs account id. For Specify regions, choose to deploy in US EAST (N.virginia) and US WEST (Oregon).
+
+<img width="950" alt="3" src="https://github.com/user-attachments/assets/983602ba-e143-4c4a-9d08-a6fe8efc850b" />
+
+4. Under Stack instances, there are 2 stacks deployed. One in us-east-1 and another one in us-west-2
+
+<img width="957" alt="4" src="https://github.com/user-attachments/assets/dd46c4a2-03bc-429d-8b41-ab894bd61169" />
+
+5. Under Exports, there are three exports named AWS-CloudFormationWorkshop-SubnetId1, AWS-CloudFormationWorkshop-SubnetId2, and AWS-CloudFormationWorkshop-VpcId. These exports aew created in each region where the stack sets are deployed.
+
+<img width="953" alt="5" src="https://github.com/user-attachments/assets/be2c13e3-0fef-4941-bef9-2d07ef4d8548" />
+
+6. Create a stack set using the example_securitygroup.yaml. This will create a security group for the VPC in each of the two regions with a single operation.
+
+<img width="947" alt="6" src="https://github.com/user-attachments/assets/e32cef05-91d8-4d2c-8ad7-2140960ba11f" />
+
+7. Under Exports, there is a new export named AWS-CloudFormationWorkshop-SecurityGroupId
+
+<img width="951" alt="8" src="https://github.com/user-attachments/assets/9ade93a9-5d5b-4c4f-9e71-c1518bbffc7e" />
+
+8. Open example_ec2instance.yaml template and add the following code
+
+<img width="405" alt="9" src="https://github.com/user-attachments/assets/5705944a-063b-412d-9445-9215e4194a22" />
+
+9. Create a new stack set using the example_ec2instance.yaml template. This will deploy the EC2 instances resources in the 2 regions chosen
+
+<img width="947" alt="10" src="https://github.com/user-attachments/assets/ef2ffa1c-0100-4390-b876-7d59e2fde905" />
+
+10. The stack instances deployed in 2 regions
+
+<img width="954" alt="11" src="https://github.com/user-attachments/assets/16eeb54a-dc80-470d-bb93-457bf3838a37" />
+
+11. Clean up resources by deleting the stacks within the stack set, the stack set and the stacks
