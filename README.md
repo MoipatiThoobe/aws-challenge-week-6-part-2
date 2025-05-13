@@ -1,17 +1,25 @@
 # aws-challenge-week-6-part-2
 
+This week is a contiunation of the previous week which focused on infrastructure as code, specifically CloudFormation. Cloudformation allows you to model your infrastructure in a text file, using JSON or YAML to describe what AWS resources you want to create and configure. 
+
+## Prerequisites
+1. Clone the repository to your working directory to get the CloudFormation templates
+```
+git clone https://github.com/aws-samples/cfn101-workshop
+```
+
 ## Conditions
 To conditionally create resources, you add the optional **Conditions** section to your template. Once you define conditions and relevant criteria, you use your conditions in the **Resources** and **Outputs** template sections. CloudFormation evaluates all conditions in your template before creating any resources at stack creation or stack update. Resources that are associated with a true condition are only created during stack creation or stack update. 
 
 In the hands on, I will be doing the following: 
-* Provision resources based on Condition evalutaion
+* Provision resources based on Condition evaluation
 * Specify resource property values using Condition functions
 
-1. Open the condition-resource.yaml file and add the following code to create a Parameters section in the template
+1. Open the condition-resource.yaml template and add the following code to create a **Parameters** section in the template
 
 <img width="437" alt="1" src="https://github.com/user-attachments/assets/80142a7b-a842-49b8-b167-d38118dee0c7" />
 
-2. Add the following condition to evaluate if the EnvType parameter value equals to prod
+2. Add the following condition to evaluate if the *EnvType* parameter value equals to prod
 
 <img width="143" alt="2" src="https://github.com/user-attachments/assets/61cb8679-2e29-4bfd-90a7-a69312efa291" />
 
@@ -35,7 +43,7 @@ In the hands on, I will be doing the following:
 
 <img width="605" alt="7" src="https://github.com/user-attachments/assets/7996ea6f-2610-4a97-935b-ffe6f2833983" />
 
-8. Open the condition-resource-property.yaml and add the following code define the *EnvType* parameter and the *isProduction* condition to create resource based on the parameter value passed
+8. Open the condition-resource-property.yaml and add the following code to define the *EnvType* parameter and the *isProduction* condition to create resource based on the parameter value passed
 
 <img width="434" alt="8" src="https://github.com/user-attachments/assets/374e242c-6df0-4d18-a5d8-b5df399767f1" />
 
@@ -57,18 +65,19 @@ In the hands on, I will be doing the following:
 
 13. Clean up resources by deleting the CloudFormation stacks
 
+
 ## Resources Dependencies
-If there are no dependencies between resources you define in a template, CloudFormation iniaties the creation of all resources in parallel. There are cases where you either want to, or a required to define the order in which resources will be created: in these cases, CloudFormation creates some resources before other ones. 
+If there are no dependencies between resources you define in a template, CloudFormation initiates the creation of all resources in parallel. There are cases where you either want to, or are required to define the order in which resources will be created: in these cases, CloudFormation creates some resources before other ones. 
 
 In the hands on lab, I will be doing the following:
-*Understand the usage of the *DependsOn* resource attribute to explicitly define resource creation order
-*Use *Ref* and *Fn::GetAtt* intrinsic functions to create dependencies between resources
+* Understand the usage of the *DependsOn* resource attribute to explicitly define resource creation order
+* Use *Ref* and *Fn::GetAtt* intrinsic functions to create dependencies between resources
 
-1. Open the resource-dependencies-without-dependson.yaml template and add the following code to create an S3 bucket and an SNS topic
+1. Open the resource-dependencies-without-dependson.yaml template and add the following code to create a S3 bucket and a SNS topic
 
 <img width="284" alt="13" src="https://github.com/user-attachments/assets/bea7e7b7-0442-4f88-bf6d-50ff8c38aba9" />
 
-2. Create a stack on CloudFormation using the template created in the previous step
+2. Create a stack on CloudFormation using the resource-dependencies-without-dependson.yaml template
 
 <img width="959" alt="14" src="https://github.com/user-attachments/assets/e8df7f7d-3f55-46ae-b657-7609a09a0b13" />
 
@@ -80,7 +89,7 @@ In the hands on lab, I will be doing the following:
 
 <img width="289" alt="15" src="https://github.com/user-attachments/assets/322712d5-590b-4f9f-86cf-1551e4d14ca3" />
 
-5. Create a stack on CloudFormation using the template created in the previous step
+5. Create a stack on CloudFormation using the resource-dependencies-with-dependson.yaml template 
 
 <img width="947" alt="16" src="https://github.com/user-attachments/assets/44e29c47-98e6-4cd5-b8dc-c580effba387" />
 
@@ -92,7 +101,7 @@ In the hands on lab, I will be doing the following:
 
 <img width="299" alt="17" src="https://github.com/user-attachments/assets/84c06dff-b84d-4c9c-8be9-13a795ea078a" />
 
-8. Create a stack on CloudFormation using the template created in the previous step
+8. Create a stack on CloudFormation using the resource-dependencies-with-intrinsic-functions.yaml template
 
 <img width="935" alt="18" src="https://github.com/user-attachments/assets/5b9c8a72-9b2b-44e7-a28c-427ec2a0df38" />
 
@@ -100,7 +109,7 @@ In the hands on lab, I will be doing the following:
 
 <img width="686" alt="18 1" src="https://github.com/user-attachments/assets/6b134715-694d-4d34-9ad9-c729d1224b69" />
 
-10. Open the resource-dependencies-challenge.yaml template and modify the EC2 instance resource definition with the following
+10. Open the resource-dependencies-challenge.yaml template and modify the EC2 instance resource definition with the following code
 
 <img width="259" alt="19" src="https://github.com/user-attachments/assets/bbdf8087-5ff7-4a34-830a-af18d532b6b0" />
 
@@ -108,14 +117,15 @@ In the hands on lab, I will be doing the following:
 
 <img width="277" alt="20" src="https://github.com/user-attachments/assets/3e572d8a-3901-4bd7-918d-ba528e293d29" />
 
-12. Create the stack on CloudFormation using the template that was created in the previous step
+12. Create the stack on CloudFormation using the resource-dependencies-challenge.yaml template
 
 <img width="950" alt="21" src="https://github.com/user-attachments/assets/1448bcbe-3d9d-49ca-9828-b6192a0bf4fe" />
 
 13. Clean up resources by deleting the CloudFormation stacks
 
-## Dyanamic References
-Dynamic references are used in the CloudFormation template to reference external values stored in AWS services. When you use a dynamic reference, CloudFormation retrives the value of the specified reference when necessary during a stack and change set operations. However, CloudFormation never stores the actual reference value. 
+
+## Dynamic References
+Dynamic references are used in the CloudFormation template to reference external values stored in AWS services. When you use a dynamic reference, CloudFormation retrieves the value of the specified reference when necessary during a stack and change set operations. However, CloudFormation never stores the actual reference value. 
 
 In the hands on lab, I will be doing the following: 
 * Compose a dynamic reference string to access an external value in the CloudFormation template
@@ -127,7 +137,7 @@ In the hands on lab, I will be doing the following:
 
 <img width="227" alt="22" src="https://github.com/user-attachments/assets/a8061a11-aaa8-4867-98b3-c263edd3c608" />
 
-2. Open ec2-instance.yaml and add the following code in the Properties section, the ImageId property and a dynamic reference to the parameter
+2. Open ec2-instance.yaml and add the following code in the **Properties section**, the *ImageId* property and a dynamic reference to the parameter
 
 <img width="349" alt="23" src="https://github.com/user-attachments/assets/b9fd32c6-1dd8-45c0-9610-320e74d5bc7f" />
 
@@ -135,7 +145,7 @@ In the hands on lab, I will be doing the following:
 
 <img width="947" alt="24" src="https://github.com/user-attachments/assets/78440922-eb61-4a4c-baff-dae8cfd87fc1" />
 
-4. In the CLI verify that the ID of the image used for the EC2 instance matches the image ID stored in the Parameter store paramter
+4. In the CLI verify that the ID of the image used for the EC2 instance matches the image ID stored in the Parameter store parameter
 
 <img width="244" alt="25" src="https://github.com/user-attachments/assets/cdd3a978-6905-4bee-9c09-cbd6dd46bf58" />
 
@@ -143,7 +153,7 @@ In the hands on lab, I will be doing the following:
 
 <img width="941" alt="27" src="https://github.com/user-attachments/assets/6c1a86ea-f4b0-4ab4-bb7d-c9de7088e1ec" />
 
-6. Open lambda-function.yaml and update the template by appending the *Properties* section with the *Environment* property, with variables using dynamic references to the AWS Secrets manager
+6. Open lambda-function.yaml and update the template by appending the **Properties** section with the *Environment* property, with variables using dynamic references to the AWS Secrets manager
 
 <img width="511" alt="28" src="https://github.com/user-attachments/assets/efe9f6fd-3962-48bc-bc76-52acf1c2b13c" />
 
@@ -151,7 +161,7 @@ In the hands on lab, I will be doing the following:
 
 <img width="956" alt="29" src="https://github.com/user-attachments/assets/bd4ce95e-9ed7-4ebf-a59f-c6d0722e42ea" />
 
-8. In the CLI invoke the example Lambda function that was created and save the output inside of a JSOn file
+8. In the CLI invoke the example Lambda function that was created and save the output inside of a JSON file
 
 <img width="422" alt="30" src="https://github.com/user-attachments/assets/aaefae8d-c205-4cf7-b9eb-099a9f34b6e3" />
 
@@ -175,7 +185,7 @@ In the hands on lab, I will be doing the following:
 
 <img width="695" alt="35" src="https://github.com/user-attachments/assets/e24a4a1f-609a-4693-a048-eab82b6a8c56" />
 
-14. Clean up recources by deleting the Lambda functions, Parameter store parameters and the CloudFormation stacks
+14. Clean up resources by deleting the Lambda functions, Parameter store parameters and the CloudFormation stacks
 
 
 ## Nested stacks
@@ -187,11 +197,11 @@ In the hands on lab, I will be doing the following:
 * Build a IAM instance role stack
 * Build the EC2 instance stack
 
-1. Create an S3 bucket by creating a stack on CloudFormation using the template-and-stack.yaml template
+1. Creating a stack on CloudFormation using the template-and-stack.yaml template, this will create a S3 bucket
 
 <img width="943" alt="1" src="https://github.com/user-attachments/assets/86d069fb-3c61-4491-a018-5be436050546" />
 
-2. Open main.yaml and add the following code to add parameters so that they can be passed to the nested stack
+2. Open the main.yaml template and add the following code to add parameters so that they can be passed to the nested stack
 
 <img width="598" alt="2" src="https://github.com/user-attachments/assets/eca615fd-a91c-434f-93f1-8e28f12a2d83" />
 
@@ -203,19 +213,19 @@ In the hands on lab, I will be doing the following:
 
 <img width="946" alt="4" src="https://github.com/user-attachments/assets/a13d336f-11d1-4f66-aee5-cc6bd20e0ae0" />
 
-5. Create a stack on CloudFormation using the main.yaml template file
+5. Create a stack on CloudFormation using the main.yaml template 
 
 <img width="956" alt="5" src="https://github.com/user-attachments/assets/ec8ee179-0894-4777-b8aa-250107f58f96" />
 
-6. Open iam.yaml and sdd the following code to create an IAM role with permissions to allow Session Manager to access the EC2 instance
+6. Open iam.yaml template and sdd the following code to create an IAM role with permissions to allow Session Manager to access the EC2 instance
 
 <img width="360" alt="6" src="https://github.com/user-attachments/assets/e5f81ec1-28c4-44e7-b5c0-c3eb3772b9a8" />
 
-7. Open main.yaml and add the following code to create the IAM resource
+7. Open main.yaml template and add the following code to create the IAM resource
 
 <img width="416" alt="7" src="https://github.com/user-attachments/assets/86ff0e5e-5d8b-45ce-bd21-425adb92cb00" />
 
-8. Upload the iam.yaml to the S3 bucket
+8. Upload the iam.yaml template to the S3 bucket
 
 <img width="944" alt="8" src="https://github.com/user-attachments/assets/91dea5fe-9423-4fb1-85b9-dce1384b4dc2" />
 
@@ -223,19 +233,19 @@ In the hands on lab, I will be doing the following:
 
 <img width="952" alt="9" src="https://github.com/user-attachments/assets/414ea34b-f978-41d0-b433-86d1613cb715" />
 
-10. Open ec2.yaml and add the following code to the *Parameters* section
+10. Open ec2.yaml template and add the following code to the **Parameters** section
 
 <img width="359" alt="10" src="https://github.com/user-attachments/assets/67c742fb-d67b-428d-aa4d-64f59ed04ffb" />
 
-11. Open main.yaml and add the following code to create the EC2 resource
+11. Open main.yaml template and add the following code to create the EC2 resource
 
 <img width="436" alt="11" src="https://github.com/user-attachments/assets/8908defd-32c4-4f5a-a693-7245a068750f" />
 
-12. Add the following code to the Parameters section of the EC2 stack in main.yaml
+12. Add the following code to the **Parameters** section of the EC2 stack in main.yaml
 
 <img width="242" alt="12" src="https://github.com/user-attachments/assets/97a3574b-ebc4-4325-9c32-d8cb709eb494" />
 
-13. Open ec2.yaml and add the following code to create 2 parameters
+13. Open ec2.yaml template and add the following code to create 2 parameters
 
 <img width="196" alt="13" src="https://github.com/user-attachments/assets/8bf4cee8-9b99-4f5c-a823-6b1d07cac3c5" />
 
@@ -243,31 +253,31 @@ In the hands on lab, I will be doing the following:
 
 <img width="120" alt="14" src="https://github.com/user-attachments/assets/cd00a3ce-70f2-4bef-b19d-d53196287c97" />
 
-15. Add the following code to vpc.yaml
+15. Add the following code to vpc.yaml template
 
 <img width="217" alt="15" src="https://github.com/user-attachments/assets/bb3176b5-6284-4d46-a1aa-b26926c9bdb7" />
 
-16. Add the following code to main.yaml to add VpcId and SubnetId to the EC2Stack stack
+16. Add the following code to main.yaml template to add *VpcId* and *SubnetId* to the EC2Stack stack
 
 <img width="293" alt="16" src="https://github.com/user-attachments/assets/fd6e94fa-778a-441a-a932-f8fa8a1e3833" />
 
-17. Open iam.yaml and add the following code
+17. Open iam.yaml template and add the following code
 
 <img width="247" alt="17" src="https://github.com/user-attachments/assets/8e44a802-2dcc-43c0-bbf8-ee964900d0fc" />
 
-18. Open ec2.yaml and add the following code to create a parameter
+18. Open ec2.yaml template and add the following code to create a parameter
 
 <img width="261" alt="18" src="https://github.com/user-attachments/assets/68d7afe1-6564-4b56-86b5-a60340e8f91a" />
 
-19. Open main.yaml and add the following code to add the *WebServerInstanceProfile* parameter to the EC2 stack
+19. Open main.yaml template and add the following code to add the *WebServerInstanceProfile* parameter to the EC2 stack
 
 <img width="493" alt="19" src="https://github.com/user-attachments/assets/757407f3-87b4-409a-99e2-a865fc102bd3" />
 
-20. Add the following code to main.yaml to add the *WebsiteURL* to the *Outputs* section
+20. Add the following code to main.yaml template to add the *WebsiteURL* to the **Outputs** section
 
 <img width="280" alt="20" src="https://github.com/user-attachments/assets/aa2fecc7-431c-40ce-9481-acc659b1b0f9" />
 
-21. Upload the updated vpc.yaml, ec2.yaml and iam.yaml to the S3 bucket
+21. Upload the updated vpc.yaml, ec2.yaml and iam.yaml templates to the S3 bucket
 
 <img width="947" alt="21" src="https://github.com/user-attachments/assets/4273ca27-f85e-450d-80dd-4a8e9003fbea" />
 
@@ -283,15 +293,16 @@ In the hands on lab, I will be doing the following:
 
 24. Clean up resources by deleting the root stack and S3 bucket stack
 
+
 ## Cross stack references
-The concept of **Cross stack** is to use intrinsic functions to import previously exported values using Paramaters.
+The concept of **Cross stack** is to use intrinsic functions to import previously exported values using Parameters.
 
 In the hands on lab, I will be building:
 * VPC stack
 * IAM instance role stack
 * EC2 instance stack
 
-1. Open vpc.yaml and add the following code
+1. Open vpc.yaml template and add the following code
 
 <img width="370" alt="1" src="https://github.com/user-attachments/assets/61d1680e-c384-46c0-a9ae-821d000f888d" />
 
@@ -299,7 +310,7 @@ In the hands on lab, I will be building:
 
 <img width="956" alt="2" src="https://github.com/user-attachments/assets/228166fc-2fd7-4205-a35c-eb35aa11a87d" />
 
-3. Open iam.yaml and add the following code to the *Outputs* section
+3. Open iam.yaml template and add the following code to the **Outputs** section
 
 <img width="379" alt="3" src="https://github.com/user-attachments/assets/dfe53fa7-c19a-4654-bf29-47417301836f" />
 
@@ -307,11 +318,11 @@ In the hands on lab, I will be building:
 
 <img width="950" alt="4" src="https://github.com/user-attachments/assets/55673610-8ce5-463b-8a22-9c0b376c90a9" />
 
-5. Open ec2.yaml and add the following code to update the paramaters section
+5. Open ec2.yaml template and add the following code to update the **Parameters** section
 
 <img width="440" alt="5" src="https://github.com/user-attachments/assets/da74cc0e-cd65-4b1f-92ac-4a729541aa2a" />
 
-6. Add the following code to update the WebServerInstance resource in the Resources section
+6. Add the following code to update the *WebServerInstance* resource in the **Resources** section
 
 <img width="551" alt="6" src="https://github.com/user-attachments/assets/8758eb5a-d44b-4d10-a970-c0de080ca4f4" />
 
@@ -327,13 +338,13 @@ In the hands on lab, I will be building:
 
 <img width="958" alt="9" src="https://github.com/user-attachments/assets/81d14b26-866e-4645-a8f2-47f96c9c115e" />
 
-10. Verify that you log into the instance using Session Manager
+10. Verify that you can log into the instance using Session Manager
 
 <img width="950" alt="10" src="https://github.com/user-attachments/assets/01c6b2ec-13d2-49f7-be9d-09f65f56cd62" />
 
 11. Clean up resources by deleting the EC2 stack first, then the IAM and VPC stacks
 
-## Langauge extensions
+## Language extensions
 
 A language extension is a transform, which is macro hosted by CloudFormation.
 
@@ -341,15 +352,15 @@ In the hands on lab, I will be doing the following:
 * Understanding how to incorporate the AWS::LanguageExtensions transform in the CloudFormation template
 * Use language extensions in my CloudFormation template
 
-1. Open language-exntensions.yaml and add the following code
+1. Open language-extensions.yaml and add the following code
 
 <img width="578" alt="1" src="https://github.com/user-attachments/assets/383bb212-c24e-44f9-8e62-f15d6f0a969e" />
 
-2. Add a parameter to the Parameters section
+2. Add a parameter to the **Parameters** section
 
 <img width="197" alt="2" src="https://github.com/user-attachments/assets/8bccec35-ccf6-47a1-8d33-16470e471796" />
 
-3. In the Resources section, add a Deletion policy to the EC2 instance resource
+3. In the **Resources** section, add a *Deletion policy* to the EC2 instance resource
 
 <img width="300" alt="3" src="https://github.com/user-attachments/assets/fb2e46d0-2cc3-4327-b2d7-13f95cd97948" />
 
@@ -369,15 +380,15 @@ In the hands on lab, I will be doing the following:
 
 <img width="953" alt="7" src="https://github.com/user-attachments/assets/9d739ba5-626e-410d-a470-1def12652e06" />
 
-8. The JSON for the dahboard that matches the YAML in the template
+8. The JSON for the dashboard that matches the YAML in the template
 
 <img width="873" alt="8" src="https://github.com/user-attachments/assets/97173e6d-d3e3-4ec8-aa63-93f858ca3164" />
 
-9. Add the following code to language-extensions-challenge.yaml
+9. Add the following code to language-extensions-challenge.yaml template
 
 <img width="232" alt="10" src="https://github.com/user-attachments/assets/25a681d7-a723-4cbb-9565-7f420b1151fe" />
 
-10. Add the DeletionPolicyParameter to the S3 Resource
+10. Add the *DeletionPolicy* parameter to the S3 Resource
 
 <img width="291" alt="11" src="https://github.com/user-attachments/assets/376b05f4-bb53-444e-b8a1-adb45affac45" />
 
@@ -411,7 +422,7 @@ The Fn::ForEach intrinsic function allows you to describe resources that share t
 
 <img width="959" alt="2" src="https://github.com/user-attachments/assets/09d9a00d-4fcc-406d-8d39-a7e4cd74cda7" />
 
-3. Open vpc.yaml and add the following code to create two public subnets and two private subnets
+3. Open vpc.yaml template and add the following code to create two public subnets and two private subnets
 
 <img width="310" alt="3" src="https://github.com/user-attachments/assets/5212d556-8348-42c4-8b1d-14520f54829b" />
 
@@ -423,7 +434,7 @@ The Fn::ForEach intrinsic function allows you to describe resources that share t
 
 <img width="308" alt="5" src="https://github.com/user-attachments/assets/a77a041c-25b4-4d5b-9f22-3e7273da7b65" />
 
-6. Add the following code to create 2 Nat gateways and 2 routes that each Nat gateway will use as a target
+6. Add the following code to create 2 NAT gateways and 2 routes that each NAT gateway will use as a target
 
 <img width="305" alt="6" src="https://github.com/user-attachments/assets/e5081ada-f05b-4e45-aba8-15be1b1f756b" />
 
@@ -431,7 +442,7 @@ The Fn::ForEach intrinsic function allows you to describe resources that share t
 
 <img width="956" alt="7" src="https://github.com/user-attachments/assets/e3f53078-a3f9-4f7b-b6d1-b5b858893490" />
 
-8. Add the following code to the **Output** section of vpc.yaml
+8. Add the following code to the **Outputs** section of vpc.yaml
 
 <img width="466" alt="8" src="https://github.com/user-attachments/assets/ad1a949e-5072-4410-bfc8-aa573099c4cd" />
 
@@ -441,10 +452,11 @@ The Fn::ForEach intrinsic function allows you to describe resources that share t
 
 10. Clean up resources by deleting the CloudFormation stacks
 
-## Update behaviours of stack resources
-CloudFormation updates resources by comparing changes between the updated template you provide, and resource configurations you describedin the previous version of your template. Resource configurations that haven't changed remain unaffected during the update process; otherwise CloudFormation uses one of the following *update behaviours*: **Update with No Interruption, Updates with Some Interruption, and Replacement**, depending on which new property you add, or on which property value you modify, for a given resource type  you describe in your template.
 
-1. Open update-behaviors-of-stack-resources.yaml and add the following code to the *Parameters* section
+## Update behaviors of stack resources
+CloudFormation updates resources by comparing changes between the updated template you provide, and resource configurations you described in the previous version of your template. Resource configurations that haven't changed remain unaffected during the update process; otherwise CloudFormation uses one of the following *update behaviors*: **Update with No Interruption, Updates with Some Interruption, and Replacement**, depending on which new property you add, or on which property value you modify, for a given resource type  you describe in your template.
+
+1. Open update-behaviors-of-stack-resources.yaml template and add the following code to the **Parameters** section
 
 <img width="449" alt="1" src="https://github.com/user-attachments/assets/50d3e1a6-8e26-4b8a-b6c0-dd998998a795" />
 
@@ -456,11 +468,11 @@ CloudFormation updates resources by comparing changes between the updated templa
 
 <img width="953" alt="3" src="https://github.com/user-attachments/assets/0b47f21c-08ee-4dc2-8844-1fc26b8b7413" />
 
-4. Update the stack, on the **Parameters** page change the value of the LatestAmiId parameter
+4. Update the stack, on the **Parameters** page change the value of the *LatestAmiId* parameter
 
 <img width="947" alt="5" src="https://github.com/user-attachments/assets/b508b777-f1c4-4ada-8d1d-396506c4da1b" />
 
-5. Navigate to the Amazon EC2 console, on the Instances page a new instance has been launched and the instance created earlier was terminated. This ia happening because when the stack was updated, CloudFormation created a new instance first and deleted the previous one. This is an example of replacement behaviour.
+5. Navigate to the Amazon EC2 console, on the Instances page a new instance has been launched and the instance created earlier was terminated. This ia happening because when the stack was updated, CloudFormation created a new instance first and deleted the previous one. This is an example of replacement behavior.
 
 <img width="766" alt="7" src="https://github.com/user-attachments/assets/d4d24f67-a14f-4d33-8eaa-2091fe1f4151" />
 
@@ -470,7 +482,7 @@ CloudFormation updates resources by comparing changes between the updated templa
 
 <img width="741" alt="10" src="https://github.com/user-attachments/assets/35261f6b-e16f-4662-bf9d-4a6fa54a70ea" />
 
-7. Add the following code to update-behaviors-of-stack-resources.yaml to specify the Monitoring property definition for the EC2 Instance
+7. Add the following code to update-behaviors-of-stack-resources.yaml template to specify the Monitoring property definition for the EC2 Instance
 
 <img width="229" alt="9" src="https://github.com/user-attachments/assets/72992ba7-d9d5-4b3f-8ac9-31d8fc8a1e2b" />
 
@@ -478,7 +490,7 @@ CloudFormation updates resources by comparing changes between the updated templa
 
 <img width="950" alt="11" src="https://github.com/user-attachments/assets/8deac807-4d8c-47a8-bd38-830bf369da78" />
 
-9. Update the Value of the Name tag key in update-behaviors-of-stack-resources.yaml
+9. Update the Value of the Name tag key in update-behaviors-of-stack-resources.yaml template
 
 <img width="260" alt="12" src="https://github.com/user-attachments/assets/553a377c-84eb-4575-bf82-13cf717a68f4" />
 
@@ -490,7 +502,7 @@ CloudFormation updates resources by comparing changes between the updated templa
 
 <img width="824" alt="14" src="https://github.com/user-attachments/assets/92c3cbe1-fb5f-4855-8c50-e9e936305531" />
 
-12. Clean up resources by delating the stack
+12. Clean up resources by deleting the stack
 
 
 ## Understanding change sets
@@ -504,7 +516,7 @@ In the hands on lab, I will be doing the following:
 
 <img width="949" alt="1" src="https://github.com/user-attachments/assets/aa45becd-0042-453d-839b-b00acfb71e5b" />
 
-2. Open bucket.yaml and add the following code to enable versioning on the S3 bucket
+2. Open bucket.yaml template and add the following code to enable versioning on the S3 bucket
 
 <img width="206" alt="2" src="https://github.com/user-attachments/assets/0bf9224e-d684-417e-b7fd-b2fac9259657" />
 
@@ -578,14 +590,14 @@ In The hands on lab, I will be doing the following:
 If you have created a resource in your AWS account, you can choose to import your resource into a CloudFormation stack, so you can manage the resource's lifecycle with CloudFormation. You can also use the import functionality if you want to move your resources between stacks, so you can organize your stacks and resources by lifecycle and ownership.
 
 In the hands on lab, I will be doing the following:
-* Import a resource to my stack
-* practice important considerations for a number of resource import use cases
+* Import a resource to the stack
+* Practice important considerations for a number of resource import use cases
 
 1. Navigate to the SNS console and create a SNS topic called Topic1
 
 <img width="946" alt="1" src="https://github.com/user-attachments/assets/d2cf2a99-48e1-4d6c-9dbf-639ad6280f79" />
 
-2. Open resource-importing.yaml and add the following code, the SNS topic that was previously will be passed as a parameter. A DeletionPolicy attribute to retain resources will be added to the SNS topic.
+2. Open resource-importing.yaml and add the following code, the SNS topic that was previously created will be passed as a parameter. A DeletionPolicy attribute to retain resources will be added to the SNS topic.
 
 <img width="518" alt="2" src="https://github.com/user-attachments/assets/cf2af98f-853d-412d-90ac-187b766a7fdd" />
 
@@ -597,7 +609,7 @@ In the hands on lab, I will be doing the following:
 
 <img width="950" alt="4" src="https://github.com/user-attachments/assets/d92a2536-a3d6-4ff7-aa59-b440cb9ebd30" />
 
-5. Add the following code to resource-importing.yaml
+5. Add the following code to resource-importing.yaml template
 
 <img width="548" alt="5" src="https://github.com/user-attachments/assets/a226d6f9-29d8-43ab-a283-8ac80fdfbeb4" />
 
@@ -607,7 +619,7 @@ In the hands on lab, I will be doing the following:
 
 <img width="955" alt="7" src="https://github.com/user-attachments/assets/59f1ad2b-12e8-4452-870a-5442f5bafefe" />
 
-7. Open resource-importing.yaml, remove code from the **Parameters** section and the **Resources** section
+7. Open resource-importing.yaml template, remove code from the **Parameters** section and the **Resources** section
 
 <img width="557" alt="8" src="https://github.com/user-attachments/assets/1847ce29-7a10-4652-a652-b90006c78969" />
 
@@ -615,7 +627,7 @@ In the hands on lab, I will be doing the following:
 
 <img width="952" alt="9" src="https://github.com/user-attachments/assets/43e9476c-4aa0-40e9-8746-e41464e6c8de" />
 
-9. Open moving-resources.yaml and add the following code
+9. Open moving-resources.yaml template and add the following code
 
 <img width="539" alt="10" src="https://github.com/user-attachments/assets/0c0b1537-0920-4b50-acfb-44f966b24eb7" />
 
@@ -625,13 +637,14 @@ In the hands on lab, I will be doing the following:
 
 11. Clean up resources by deleting the stacks
 
+
 ## Drift detection
 
 Drift detection gives you information on the difference between the current configuration of a resource and the configuration you declared in the template you used to create or update the resource. The results of the drift detection show you the affected resources and the differences between the current state and the template.
 
 In the hands on lab, I will be doing the following:
 * Use drift detection to detect drift on stack resources
-* Understand how to intepret the Drift Detection results to identify which resource properties have changed
+* Understand how to interpret the Drift Detection results to identify which resource properties have changed
 * Modify a resource to return it to its original configuration
 * Update a template to match the new configuration of a resource
 
@@ -679,7 +692,7 @@ In the hands on lab, I will be doing the following:
 
 <img width="955" alt="11" src="https://github.com/user-attachments/assets/284cdff2-64d2-489a-a540-dc859c23e89d" />
 
-12. Open drift-detection-workshop.yaml and update the MessageRetentionPeriod to match the value that is has been updated to
+12. Open drift-detection-workshop.yaml and update the MessageRetentionPeriod to match the value that it has been updated to
 
 <img width="229" alt="12" src="https://github.com/user-attachments/assets/6bdd5451-1b08-4132-be08-426d2efd9b3c" />
 
@@ -703,7 +716,7 @@ In the hands on lab, I will be doing the following:
 
 <img width="952" alt="17" src="https://github.com/user-attachments/assets/2c5f3bd6-27d4-4937-bb65-73aafc27a3c9" />
 
-18. Start a drift detection on the stack, the drift status is DRIFTed and the drift status page shows that Instance1 has been modified
+18. Start a drift detection on the stack, the drift status is DRIFTED and the drift status page shows that Instance1 has been modified
 
 <img width="952" alt="18" src="https://github.com/user-attachments/assets/972796b8-747f-4b16-8340-7d1ae8c978c1" />
 
@@ -741,6 +754,7 @@ In the hands on lab, I will be doing the following:
 
 27. Clean up resources by deleting the stacks
 
+
 ## Orchestration with StackSets
 With CloudFormation StackSets, you can create, update or delete stacks across multiple accounts and AWS regions with a single operation
 
@@ -748,7 +762,7 @@ In the hands on lab, I will be doing the following:
 * Leverage StackSets to provision resources in one account and across multiple regions using a single operation
 * Understand how you can export output parameters from a stack set instance, and import them into another stack set instance
 
-### Prerequistes
+### Prerequisites
 
 1. Create a stack on CloudFormation using the AWSCloudFormationStackSetAdministrationRole.yaml template. This will create the administrator role needed for the hands on lab.
 
@@ -758,36 +772,38 @@ In the hands on lab, I will be doing the following:
 
 <img width="947" alt="2" src="https://github.com/user-attachments/assets/f79ac3ff-531a-4c17-8d8b-9e2ec2f8ce5f" />
 
-3. Create a StackSet on CloudFormation using the example_network.yaml template. In the Account number text box, enter the 12 digit AWs account id. For Specify regions, choose to deploy in US EAST (N.virginia) and US WEST (Oregon).
+3. End of Prerequisite section
+
+1. Create a StackSet on CloudFormation using the example_network.yaml template. In the Account number text box, enter the 12 digit AWs account id. For Specify regions, choose to deploy in US EAST (N.virginia) and US WEST (Oregon).
 
 <img width="950" alt="3" src="https://github.com/user-attachments/assets/983602ba-e143-4c4a-9d08-a6fe8efc850b" />
 
-4. Under Stack instances, there are 2 stacks deployed. One in us-east-1 and another one in us-west-2
+2. Under Stack instances, there are 2 stacks deployed. One in us-east-1 and another one in us-west-2
 
 <img width="957" alt="4" src="https://github.com/user-attachments/assets/dd46c4a2-03bc-429d-8b41-ab894bd61169" />
 
-5. Under Exports, there are three exports named AWS-CloudFormationWorkshop-SubnetId1, AWS-CloudFormationWorkshop-SubnetId2, and AWS-CloudFormationWorkshop-VpcId. These exports aew created in each region where the stack sets are deployed.
+3. Under Exports, there are three exports named AWS-CloudFormationWorkshop-SubnetId1, AWS-CloudFormationWorkshop-SubnetId2, and AWS-CloudFormationWorkshop-VpcId. These exports aew created in each region where the stack sets are deployed.
 
 <img width="953" alt="5" src="https://github.com/user-attachments/assets/be2c13e3-0fef-4941-bef9-2d07ef4d8548" />
 
-6. Create a stack set using the example_securitygroup.yaml. This will create a security group for the VPC in each of the two regions with a single operation.
+4. Create a stack set using the example_securitygroup.yaml template. This will create a security group for the VPC in each of the two regions with a single operation.
 
 <img width="947" alt="6" src="https://github.com/user-attachments/assets/e32cef05-91d8-4d2c-8ad7-2140960ba11f" />
 
-7. Under Exports, there is a new export named AWS-CloudFormationWorkshop-SecurityGroupId
+5. Under Exports, there is a new export named AWS-CloudFormationWorkshop-SecurityGroupId
 
 <img width="951" alt="8" src="https://github.com/user-attachments/assets/9ade93a9-5d5b-4c4f-9e71-c1518bbffc7e" />
 
-8. Open example_ec2instance.yaml template and add the following code
+6. Open example_ec2instance.yaml template and add the following code
 
 <img width="405" alt="9" src="https://github.com/user-attachments/assets/5705944a-063b-412d-9445-9215e4194a22" />
 
-9. Create a new stack set using the example_ec2instance.yaml template. This will deploy the EC2 instances resources in the 2 regions chosen
+7. Create a new stack set using the example_ec2instance.yaml template. This will deploy the EC2 instances resources in the 2 regions chosen
 
 <img width="947" alt="10" src="https://github.com/user-attachments/assets/ef2ffa1c-0100-4390-b876-7d59e2fde905" />
 
-10. The stack instances deployed in 2 regions
+8. The stack instances deployed in 2 regions
 
 <img width="954" alt="11" src="https://github.com/user-attachments/assets/16eeb54a-dc80-470d-bb93-457bf3838a37" />
 
-11. Clean up resources by deleting the stacks within the stack set, the stack set and the stacks
+9. Clean up resources by deleting the stacks within the stack set, the stack set and the stacks
