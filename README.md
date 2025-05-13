@@ -1,6 +1,6 @@
 # aws-challenge-week-6-part-2
 
-This week is a contiunation of the previous week which focused on infrastructure as code, specifically CloudFormation. Cloudformation allows you to model your infrastructure in a text file, using JSON or YAML to describe what AWS resources you want to create and configure. 
+This week is a continuation of the previous week which focused on infrastructure as code, specifically CloudFormation. Cloudformation allows you to model your infrastructure in a text file, using JSON or YAML to describe what AWS resources you want to create and configure. 
 
 ## Prerequisites
 1. Clone the repository to your working directory to get the CloudFormation templates
